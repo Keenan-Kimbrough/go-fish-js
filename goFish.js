@@ -38,11 +38,15 @@ class Player {
   }
   setGroups(person) {
     for (let i = 0; i < this.hand.length; i++) {
-      console.log(`${this.hand}`)
+      console.log(`--- this is the current Hand -- ${JSON.stringify(this.hand)}`)
+      
+      console.log(`length ${this.hand.length}`)
+
+      
       let value = this.hand[i].getvalue();
-      console.log(` this is the value of the ${this.hand[i]} at ${i}`);
+      console.log(` # of card in hand--${i} this is the card --${JSON.stringify(this.hand[i])} `);
       console.log(
-        `values of cards in players --${person}'s --hand value ${value}`
+        ` The current player is --${person}'s --the hand's current card value is-- ${value}`
       );
       // using a Map to set value to 1 if not in map and increment evey instance it shows up
       if (!this.groups.get(value)) {
@@ -91,7 +95,7 @@ class Player {
     let result = this.hand.filter((card) => card.values);
 
     console.log(randomPlayer);
-    console.log(`this is players ${JSON.stringify(players)}`);
+   
     // Filter random's ( player 2 or 3) hand that has card.value of the 1st player's card with 2+ entries
     let cardTransfer = players[randomPlayer].hand.filter(
       (card) => card.value === result
@@ -132,19 +136,22 @@ class Game {
     for (let player = 0; player < numPlayers; player++) {
       this.players.push(new Player());
       //gives each player 7 cards
-      while (players[player].hand.length < 7) {
+      console.log(`--player ${player}`)
+      while (players[player].hand.length < 6) {
         // IV: 3 or 7?
-        var card = deck.getCard();
-        players[player].hand.push(card);
+        var card1 = deck.getCard();
+        players[player].hand.push(card1);
+        console.log(`initial cards ${JSON.stringify(card1)}`)
       }
     }
     while (deck.getCard().getvalue() !== undefined || gameOver === true) {
       for (let player = 0; player < numPlayers; player++) {
         console.log(`go fish! Pick up a card!`); //IV: At some point you should handle having the player ask another random player for a card.
         let card = deck.getCard();
-        
+        console.log(card)
+        console.log(`pushing card ${JSON.stringify(card)}`)
         players[player].hand.push(card);
-        players[player].askPlayerForCard(numPlayers, players, player);
+        //players[player].askPlayerForCard(numPlayers, players, player);
         players[player].setGroups(player);
         players[player].checkForGroupsOf4();
         players[player].whoWon(playerWon, player);
